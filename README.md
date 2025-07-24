@@ -7,12 +7,6 @@ Um simulador de torneio de batalha "mata-mata" totalmente funcional, construído
 
 ---
 
-### 🎬 Demonstração em Ação
-
-(Aqui você vai colocar o GIF do seu programa rodando!)
-
----
-
 ### ✨ Funcionalidades
 
 * **Geração Procedural de Personagens:** Seis combatentes são criados no início de cada torneio com nomes, vida e ataque distribuídos aleatoriamente.
@@ -46,7 +40,7 @@ Você precisa ter o Python 3 instalado na sua máquina.
 2. **Navegue até a pasta do projeto:**
 
     ```bash
-    cd seu-repositorio
+    cd simulador-torneio-python
     ```
 
 3. **Execute o script principal:**
