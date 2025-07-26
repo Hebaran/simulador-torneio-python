@@ -42,7 +42,6 @@ while len(lista_de_lutadores) > 1:
     if atacante.status_vida():
         atacante.vida = atacante_vida_backup
         perdedor = defensor
-        
     else:
         defensor.vida = defensor_vida_backup
         perdedor = atacante
