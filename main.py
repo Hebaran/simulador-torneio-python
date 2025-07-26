@@ -37,7 +37,7 @@ while len(lista_de_lutadores) > 1:
         else:
             defensor.atacar(atacante)
 
-        sleep(0.5)
+        sleep(0.25)
             
     if atacante.status_vida():
         atacante.vida = atacante_vida_backup
@@ -47,6 +47,6 @@ while len(lista_de_lutadores) > 1:
         perdedor = atacante
 
     lista_de_lutadores.remove(perdedor)
-    sleep(2)
+    sleep(1)
 
 print(f"Parabéns, {lista_de_lutadores[0].nome} é o ganhador do torneio!")
