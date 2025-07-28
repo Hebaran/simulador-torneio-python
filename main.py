@@ -6,7 +6,7 @@ from time import sleep
 nomes_possiveis = ["Mago", "Bárbaro", "Guerreiro", "Arqueiro", "Ladino", "Assassino"]
 vidas_possiveis = [100, 80, 90, 110, 120, 105]
 ataques_possiveis = [10, 15, 8, 12, 9, 14]
-lista_de_lutadores = []
+lutadores = []
 
 for i in range(1, 7):
     shuffle(nomes_possiveis)
@@ -17,10 +17,10 @@ for i in range(1, 7):
     vida_char = vidas_possiveis.pop()
     ataque_char = ataques_possiveis.pop()
 
-    lista_de_lutadores.append(Personagem(nome_char, vida_char, ataque_char))
+    lutadores.append(Personagem(nome_char, vida_char, ataque_char))
 
-while len(lista_de_lutadores) > 1:
-    atacante, defensor = sample(lista_de_lutadores, 2)
+while len(lutadores) > 1:
+    atacante, defensor = sample(lutadores, 2)
     atacante_vida_backup = atacante.vida
     defensor_vida_backup = defensor.vida
     
@@ -33,10 +33,13 @@ while len(lista_de_lutadores) > 1:
         print(f"Turno: {turno}/100\n")
         
         if turno % 2 == 1:
-            atacante.atacar(defensor)
+            escolhido = atacante
+            proximo = defensor
         else:
-            defensor.atacar(atacante)
-
+            escolhido = defensor
+            proximo = atacante
+        
+        relatorio_escolhido = escolhido.atacar(proximo)
         sleep(0.25)
             
     if atacante.status_vida():
@@ -46,7 +49,8 @@ while len(lista_de_lutadores) > 1:
         defensor.vida = defensor_vida_backup
         perdedor = atacante
 
-    lista_de_lutadores.remove(perdedor)
+    lutadores.remove(perdedor)
     sleep(1)
 
-print(f"Parabéns, {lista_de_lutadores[0].nome} é o ganhador do torneio!")
+limpar_terminal()
+print(f"Parabéns, {lutadores[0].nome} é o ganhador do torneio!")
