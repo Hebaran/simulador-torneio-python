@@ -9,12 +9,8 @@ class Personagem:
         relatorio_ataque = {}
         
         if self.status_vida() and alvo.status_vida():
-            alvo.receber_dano(self.ataque)
-
-            relatorio_ataque["atacante"] = self.nome
-            relatorio_ataque["alvo"] = alvo.nome
-            relatorio_ataque["dano_causado"] = self.ataque
-            relatorio_ataque["vida_restante_alvo"] = alvo.vida
+            relatorio_dano_causado = alvo.receber_dano(self.ataque)
+            relatorio_ataque = {"atacante": self.nome} | relatorio_dano_causado
 
         return relatorio_ataque
 
