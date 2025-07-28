@@ -9,7 +9,7 @@ class Personagem:
         relatorio_ataque = {}
         
         if self.status_vida() and alvo.status_vida():
-            alvo.vida = max(0, alvo.vida - self.ataque)
+            alvo.receber_dano(self.ataque)
 
             relatorio_ataque["atacante"] = self.nome
             relatorio_ataque["alvo"] = alvo.nome
@@ -28,8 +28,6 @@ class Personagem:
             relatorio_dano["alvo"] = self.nome
             relatorio_dano["dano_causado"] = dano
             relatorio_dano["vida_restante_alvo"] = self.vida
-            # Misteriosamente PERSONAGEM recebeu QTD_DANO de dano.
-            # Vida restante de PERSONAGEM: VIDA_RESTANTE}
 
         return relatorio_dano
 
