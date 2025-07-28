@@ -39,11 +39,15 @@ while len(lutadores) > 1:
             atacante = duelistas[1]
             defensor = duelistas[0]
 
+        relatorio_atacante = atacante.atacar(defensor)
+        
         limpar_terminal()
         print(f"======= {duelistas[0].nome} x {duelistas[1].nome} =======")
         print(f"Turno: {turno}/100\n")
-
-        relatorio_escolhido = atacante.atacar(defensor)
+        print(f"{relatorio_atacante["atacante"]} ataca {relatorio_atacante["alvo"]}.")
+        print(f"{relatorio_atacante["alvo"]} recebe {relatorio_atacante["dano_causado"]} de dano.")
+        print(f"Vida restante de {relatorio_atacante["alvo"]}: {relatorio_atacante["vida_restante_alvo"]}")
+        
         sleep(0.25)
 
     sleep(1)
