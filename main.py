@@ -20,36 +20,32 @@ for i in range(1, 7):
     lutadores.append(Personagem(nome_char, vida_char, ataque_char))
 
 while len(lutadores) > 1:
-    atacante, defensor = sample(lutadores, 2)
-    atacante_vida_backup = atacante.vida
-    defensor_vida_backup = defensor.vida
-    
+    duelistas = sample(lutadores, 2)
+    atacante, defensor = duelistas
+
     for turno in range(1, 101):
         if False in {atacante.status_vida(), defensor.status_vida()}:
-            break
-        
-        limpar_terminal()
-        print(f"======= {atacante.nome} x {defensor.nome} =======")
-        print(f"Turno: {turno}/100\n")
-        
-        if turno % 2 == 1:
-            escolhido = atacante
-            proximo = defensor
-        else:
-            escolhido = defensor
-            proximo = atacante
-        
-        relatorio_escolhido = escolhido.atacar(proximo)
-        sleep(0.25)
+            ganhador = atacante if atacante.status_vida() else defensor
+            perdedor = defensor if atacante.status_vida() else atacante
             
-    if atacante.status_vida():
-        atacante.vida = atacante_vida_backup
-        perdedor = defensor
-    else:
-        defensor.vida = defensor_vida_backup
-        perdedor = atacante
+            ganhador.restaurar_hp()
+            lutadores.remove(perdedor)
+            break
+            
+        if turno % 2 == 1:
+            atacante = duelistas[0]
+            defensor = duelistas[1]
+        else:
+            atacante = duelistas[1]
+            defensor = duelistas[0]
 
-    lutadores.remove(perdedor)
+        limpar_terminal()
+        print(f"======= {duelistas[0].nome} x {duelistas[1].nome} =======")
+        print(f"Turno: {turno}/100\n")
+
+        relatorio_escolhido = atacante.atacar(defensor)
+        sleep(0.25)
+
     sleep(1)
 
 limpar_terminal()
