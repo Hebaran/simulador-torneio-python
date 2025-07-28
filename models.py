@@ -1,40 +1,37 @@
 class Personagem:
     def __init__(self, nome="Character", vida=100, ataque=10):
-        self.nome = nome.capitalize()
+        self.nome = nome.strip().capitalize()
         self.vida = vida
         self.ataque = ataque
 
 
     def atacar(self, alvo):
-        if self.status_vida():
-            dano = int(self.ataque *
-                1.5 if self.nome == "Herói" else self.ataque)
+        relatorio_ataque = {}
+        
+        if self.status_vida() and alvo.status_vida():
+            alvo.vida = max(0, alvo.vida - self.ataque)
 
-            if alvo.status_vida():
-                alvo.vida = max(0, alvo.vida - dano)
+            relatorio_ataque["atacante"] = self.nome
+            relatorio_ataque["alvo"] = alvo.nome
+            relatorio_ataque["dano_causado"] = self.ataque
+            relatorio_ataque["vida_restante_alvo"] = alvo.vida
 
-                print(f"{self.nome} ataca {alvo.nome}.")
-                print(f"{alvo.nome} recebe {dano} de dano.")
-                print(f"Vida restante de {alvo.nome}: {alvo.vida}")
-
-                if not alvo.status_vida():
-                    print(f"{self.nome} matou {alvo.nome}.")
-            else:
-                print(f"{alvo.nome} já está morto.")
-        else:
-            print(f"{self.nome} está morto e não consegue atacar.")
+        return relatorio_ataque
 
     
     def receber_dano(self, dano=1):
+        relatorio_dano = {}
+        
         if self.status_vida():
             self.vida = max(0, self.vida - dano)
-            print(f"Misteriosamente {self.nome} recebeu {dano} de dano.")
-            print(f"Vida restante de {self.nome}: {self.vida}")
 
-            if not self.status_vida():
-                print(f"{self.nome} morreu.")
-        else:
-            print(f"{self.nome} já está morto.")
+            relatorio_dano["alvo"] = self.nome
+            relatorio_dano["dano_causado"] = dano
+            relatorio_dano["vida_restante_alvo"] = self.vida
+            # Misteriosamente PERSONAGEM recebeu QTD_DANO de dano.
+            # Vida restante de PERSONAGEM: VIDA_RESTANTE}
+
+        return relatorio_dano
 
     
     def status_vida(self):
