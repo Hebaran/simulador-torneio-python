@@ -1,7 +1,7 @@
 class Personagem:
     def __init__(self, nome="Character", vida=100, ataque=10):
         self.nome = nome.strip().capitalize()
-        self.vida = vida
+        self.vida = self.vida_maxima = vida
         self.ataque = ataque
 
 
@@ -32,6 +32,15 @@ class Personagem:
             # Vida restante de PERSONAGEM: VIDA_RESTANTE}
 
         return relatorio_dano
+
+
+    def restaurar_hp(self):
+        relatorio_hp = {}
+
+        self.vida = self.vida_maxima
+        relatorio_hp["vida_restaurada"] = self.vida_maxima
+        
+        return relatorio_hp
 
     
     def status_vida(self):
