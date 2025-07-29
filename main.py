@@ -49,25 +49,29 @@ while len(lutadores) > 1:
             relatorio_atacante = atacante.usar_especial(defensor)
             
             if not relatorio_atacante["especial"]:
-                raise PermissionError("Mana insuficiente para utilizar o especial.")
+                raise PermissionError(relatorio_atacante["motivo"])
         except (AttributeError, PermissionError):
-            relatorio_atacante = atacante.atacar(defensor)
-            
+            if hasattr(atacante, "mana"):
+                relatorio_atacante.update(atacante.atacar(defensor))
+            else:
+                relatorio_atacante = atacante.atacar(defensor)
+        
         
         # NARRAÇÃO DO COMBATE
         limpar_terminal()
         print(f"======= {duelistas[0].nome} x {duelistas[1].nome} =======")
         print(f"Turno: {turno}/100\n")
-        print(f"{relatorio_atacante["atacante"]} ataca {relatorio_atacante["alvo"]}.")
+        print(f"{atacante.nome} ataca {defensor.nome}.")
+        print(f"{relatorio_atacante["motivo"]}, {atacante.nome} utiliza um ataque básico." if relatorio_atacante.get("motivo") else subir_linha())
         print(f"{atacante.nome} UTILIZA SEU ESPECIAL!" if relatorio_atacante.get("especial") else subir_linha())
         print("GOLPE CRÍTICO! " if relatorio_atacante.get("critico") else "", end="")
-        print(f"{relatorio_atacante["alvo"]} recebe {relatorio_atacante["dano_causado"]} de dano.")
-        print(f"Vida restante de {relatorio_atacante["alvo"]}: {relatorio_atacante["vida_restante_alvo"]}")
+        print(f"{defensor.nome} recebe {relatorio_atacante["dano_causado"]} de dano.")
+        print(f"Vida restante de {defensor.nome}: {defensor.vida}")
         print(f"Mana restante de {atacante.nome}: {atacante.mana}" if hasattr(atacante, "mana") else subir_linha())
         
-        input()
+        #input()
 
-    sleep(1)
+    #sleep(1)
 
 limpar_terminal()
 print(f"Parabéns, {ganhador.nome} é o ganhador do torneio!")
