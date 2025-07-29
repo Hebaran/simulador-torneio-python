@@ -34,7 +34,7 @@ Você precisa ter o Python 3 instalado na sua máquina.
 1. **Clone este repositório:**
 
     ```bash
-    git clone https://github.com/Hebaran/simulador-torneio-python.git
+    git clone https://github.com/hebaran/simulador-torneio-python.git
     ```
 
 2. **Navegue até a pasta do projeto:**
