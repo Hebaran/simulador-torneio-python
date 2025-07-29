@@ -62,19 +62,19 @@ class Mago(Personagem):
     def __init__(self, nome="CharacterMage", vida=90, ataque=8, mana=120):
         super().__init__(nome, vida, ataque)
         self.mana = self.mana_maxima = mana
-
+        self.especial_cooldown = 0
 
     def usar_especial(self, alvo):
         relatorio_especial = {}
 
-        if self.status_vida() and alvo.status_vida():
-            relatorio_especial["especial"] = self.mana >= 60
-            
-            if relatorio_especial["especial"]:
+        if self.status_vida() and alvo.status_vida():   
+            if self.mana >= 60 and self.especial_cooldown == 0:
                 self.mana = max(0, self.mana - 60)
-                relatorio_especial.update(alvo.receber_dano(self.ataque * 4) | {"atacante": self.nome, "mana_restante": self.mana})
+                self.especial_cooldown = 3
+                relatorio_especial.update(alvo.receber_dano(self.ataque * 5) | {"atacante": self.nome, "especial": True, "mana_restante": self.mana})
             else:
-                relatorio_especial["motivo"] = "Mana insuficiente"
+                self.especial_cooldown = max(0, self.especial_cooldown - 1)
+                relatorio_especial= {"especial": False, "motivo": "Mana insuficiente" if self.mana < 60 else "Especial em tempo de recarga"}
         
         return relatorio_especial
     
