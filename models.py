@@ -1,5 +1,4 @@
 from random import random
-import re
 
 class Personagem:
     def __init__(self, nome="Character", vida=100, ataque=10):
