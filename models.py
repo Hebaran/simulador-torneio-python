@@ -1,3 +1,6 @@
+from random import random
+import re
+
 class Personagem:
     def __init__(self, nome="Character", vida=100, ataque=10):
         self.nome = nome.strip().capitalize()
@@ -10,7 +13,7 @@ class Personagem:
         
         if self.status_vida() and alvo.status_vida():
             relatorio_dano_causado = alvo.receber_dano(self.ataque)
-            relatorio_ataque = {"atacante": self.nome} | relatorio_dano_causado
+            relatorio_ataque = relatorio_dano_causado | {"atacante": self.nome}
 
         return relatorio_ataque
 
@@ -39,3 +42,35 @@ class Personagem:
     
     def status_vida(self):
         return self.vida > 0
+
+class Guerreiro(Personagem):
+    def __init__(self, nome="CharacterWarrior", vida=105, ataque=14):
+        super().__init__(nome, vida, ataque)
+    
+    
+    def atacar(self, alvo):
+        relatorio_ataque = {}
+
+        if self.status_vida() and alvo.status_vida():
+            chance_critico = random() <= 0.2
+            relatorio_dano_causado = alvo.receber_dano((self.ataque * 2) if chance_critico else self.ataque)
+            relatorio_ataque = relatorio_dano_causado | {"atacante": self.nome, "critico": chance_critico}
+            
+        return relatorio_ataque
+
+
+class Mago(Personagem):
+    def __init__(self, nome="CharacterMage", vida=90, ataque=8, mana=120):
+        super().__init__(nome, vida, ataque)
+        self.mana = self.mana_maxima = mana
+
+
+    def especial(self, alvo):
+        relatorio_especial = {}
+
+        if self.status_vida() and alvo.status_vida():
+            relatorio_especial["especial"] = self.mana >= 60
+            if relatorio_especial["especial"]:
+                self.mana -= 60
+        
+        return relatorio_especial
