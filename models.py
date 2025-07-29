@@ -64,12 +64,25 @@ class Mago(Personagem):
         self.mana = self.mana_maxima = mana
 
 
-    def especial(self, alvo):
+    def usar_especial(self, alvo):
         relatorio_especial = {}
 
         if self.status_vida() and alvo.status_vida():
             relatorio_especial["especial"] = self.mana >= 60
+            
             if relatorio_especial["especial"]:
-                self.mana -= 60
+                self.mana = max(0, self.mana - 60)
+                relatorio_especial.update(alvo.receber_dano(self.ataque * 4) | {"atacante": self.nome, "mana_restante": self.mana})
+            else:
+                relatorio_especial["motivo"] = "Mana insuficiente"
         
         return relatorio_especial
+    
+    
+    def restaurar_mana(self):
+        relatorio_mana = {}
+
+        self.mana = self.mana_maxima
+        relatorio_mana["mana_restaurada"] = self.mana_maxima
+        
+        return relatorio_mana
