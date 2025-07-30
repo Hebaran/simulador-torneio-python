@@ -12,7 +12,7 @@ class Personagem:
         
         if self.status_vida() and alvo.status_vida():
             relatorio_dano_causado = alvo.receber_dano(self.ataque)
-            relatorio_ataque = relatorio_dano_causado | {"atacante": self.nome}
+            relatorio_ataque = relatorio_dano_causado | {"atacante": self.nome, "vida_restante_atacante": self.vida}
 
         return relatorio_ataque
 
@@ -70,11 +70,11 @@ class Mago(Personagem):
         if self.status_vida() and alvo.status_vida():   
             if self.mana >= 60 and self.especial_cooldown == 0:
                 self.mana = max(0, self.mana - 60)
-                self.especial_cooldown = 3
+                self.especial_cooldown = 2
                 relatorio_especial.update(alvo.receber_dano(self.ataque * 5) | {"atacante": self.nome, "especial": True, "mana_restante": self.mana})
             else:
                 self.especial_cooldown = max(0, self.especial_cooldown - 1)
-                relatorio_especial= {"especial": False, "motivo": "Mana insuficiente" if self.mana < 60 else "Especial em tempo de recarga"}
+                relatorio_especial= {"especial": False, "motivo_erro_especial": "Mana insuficiente" if self.mana <= 60 else "Especial em tempo de recarga", "especial_cooldown": self.especial_cooldown}
         
         return relatorio_especial
     
