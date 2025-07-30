@@ -18,8 +18,7 @@ for i in range(1, 5):
     ataque_char = ataques_possiveis.pop()
 
     lutadores.append(Personagem(nome_char, vida_char, ataque_char))
-lutadores.append(Guerreiro("Guerreiro"))
-lutadores.append(Mago("Mago"))
+lutadores.extend([Guerreiro("Guerreiro"), Mago("Mago")])
 
 while len(lutadores) > 1:
     duelistas = sample(lutadores, 2)
