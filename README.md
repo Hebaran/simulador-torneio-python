@@ -57,7 +57,7 @@ Você precisa ter o Python 3 instalado na sua máquina.
 
 O projeto é modularizado em dois arquivos principais:
 
-* `char_class.py`: Contém a classe `Personagem`, que é o "molde" para todos os lutadores.
+* `models.py`: Contém a classe `Personagem`, que é o "molde" para todos os lutadores.
 * `main.py`: É o arquivo principal que importa a classe `Personagem`, cria os lutadores e executa a lógica do torneio.
 
 ---
