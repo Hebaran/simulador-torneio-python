@@ -1,14 +1,14 @@
-from models import Personagem
-from utils import limpar_terminal
+from models import Personagem, Guerreiro, Mago
+from utils import limpar_terminal, narrador_combate
 from random import shuffle, sample
 from time import sleep
 
-nomes_possiveis = ["Mago", "Bárbaro", "Guerreiro", "Arqueiro", "Ladino", "Assassino"]
-vidas_possiveis = [100, 80, 90, 110, 120, 105]
-ataques_possiveis = [10, 15, 8, 12, 9, 14]
+nomes_possiveis = ["Bárbaro", "Arqueiro", "Ladino", "Assassino"]
+vidas_possiveis = [220, 230, 200, 210]
+ataques_possiveis = [10, 15, 12, 9]
 lutadores = []
 
-for i in range(1, 7):
+for i in range(1, 5):
     shuffle(nomes_possiveis)
     shuffle(vidas_possiveis)
     shuffle(ataques_possiveis)
@@ -18,6 +18,7 @@ for i in range(1, 7):
     ataque_char = ataques_possiveis.pop()
 
     lutadores.append(Personagem(nome_char, vida_char, ataque_char))
+lutadores.extend([Guerreiro("Guerreiro", 235), Mago("Mago", 190)])
 
 while len(lutadores) > 1:
     duelistas = sample(lutadores, 2)
@@ -27,6 +28,9 @@ while len(lutadores) > 1:
         if False in {atacante.status_vida(), defensor.status_vida()}:
             ganhador = atacante if atacante.status_vida() else defensor
             perdedor = defensor if atacante.status_vida() else atacante
+            
+            if hasattr(ganhador, "mana"):
+                ganhador.restaurar_mana()
             
             ganhador.restaurar_hp()
             lutadores.remove(perdedor)
@@ -39,18 +43,23 @@ while len(lutadores) > 1:
             atacante = duelistas[1]
             defensor = duelistas[0]
 
-        relatorio_atacante = atacante.atacar(defensor)
-        
-        limpar_terminal()
-        print(f"======= {duelistas[0].nome} x {duelistas[1].nome} =======")
-        print(f"Turno: {turno}/100\n")
-        print(f"{relatorio_atacante["atacante"]} ataca {relatorio_atacante["alvo"]}.")
-        print(f"{relatorio_atacante["alvo"]} recebe {relatorio_atacante["dano_causado"]} de dano.")
-        print(f"Vida restante de {relatorio_atacante["alvo"]}: {relatorio_atacante["vida_restante_alvo"]}")
-        
-        sleep(0.25)
+        relatorio_atacante = {}
+        try:
+            atacante.mana = min(atacante.mana + 15, atacante.mana_maxima)
+            relatorio_atacante = atacante.usar_especial(defensor)
+            
+            if not relatorio_atacante["especial"]:
+                raise PermissionError(relatorio_atacante["motivo_erro_especial"])
+        except (AttributeError, PermissionError):
+            if hasattr(atacante, "mana"):
+                relatorio_atacante.update(atacante.atacar(defensor))
+            else:
+                relatorio_atacante = atacante.atacar(defensor)
 
-    sleep(1)
+        limpar_terminal()
+        narrador_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor)
+        sleep(0.1)
+    sleep(0.4)
 
 limpar_terminal()
 print(f"Parabéns, {lutadores[0].nome} é o ganhador do torneio!")
