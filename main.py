@@ -69,9 +69,9 @@ while len(lutadores) > 1:
         print(f"Vida restante de {defensor.nome}: {defensor.vida}")
         print(f"Mana restante de {atacante.nome}: {atacante.mana}" if hasattr(atacante, "mana") else subir_linha())
         
-        #input()
+        sleep(0.25)
 
-    #sleep(1)
+    sleep(1)
 
 limpar_terminal()
 print(f"Parabéns, {ganhador.nome} é o ganhador do torneio!")
