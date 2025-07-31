@@ -48,8 +48,8 @@ while len(lutadores) > 1:
 
         limpar_terminal()
         narrador_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor)
-        sleep(0.1)
-    sleep(0.4)
+        sleep(0.5)
+    sleep(1)
 
 limpar_terminal()
 print(f"Parabéns, {lutadores[0].nome} é o ganhador do torneio!")
