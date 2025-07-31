@@ -4,7 +4,7 @@ from random import sample
 from time import sleep
 
 nomes_lutadores = ["Bárbaro", "Arqueiro", "Ladino", "Assassino"]
-lutadores = [*(Personagem.create_char(nome) for nome in nomes_lutadores), *(Guerreiro("Guerreiro", 235), Mago("Mago", 190))]
+lutadores = [*[Personagem.create_char(nome) for nome in nomes_lutadores], *[Guerreiro("Guerreiro", 235), Mago("Mago", 190)]]
 
 while len(lutadores) > 1:
     duelistas = sample(lutadores, 2)
