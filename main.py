@@ -1,24 +1,26 @@
 from models import Personagem, Guerreiro, Mago
-from utils import limpar_terminal, narrador_combate
+from utils import narrador_combate, limpar_terminal
+from typing import Dict, Any
 from random import sample
-from time import sleep
 
-nomes_lutadores = ["Bárbaro", "Arqueiro", "Ladino", "Assassino"]
-lutadores = [*[Personagem.create_char(nome) for nome in nomes_lutadores], *[Guerreiro("Guerreiro", 235), Mago("Mago", 190)]]
+nomes_lutadores: list[str] = ["Bárbaro", "Arqueiro", "Ladino", "Assassino"]
+
+lutadores: list["Personagem"] = [Personagem.create_char(nome) for nome in nomes_lutadores] 
+lutadores.extend([Guerreiro("Guerreiro", 235), Mago("Mago", 190)])
 
 while len(lutadores) > 1:
     duelistas = sample(lutadores, 2)
-    atacante, defensor = duelistas
+    atacante = duelistas[0]
+    defensor = duelistas[1]
 
     for turno in range(1, 101):
-        if False in {atacante.status_vida(), defensor.status_vida()}:
+        if False in [atacante.status_vida(), defensor.status_vida()]:
             ganhador = atacante if atacante.status_vida() else defensor
             perdedor = defensor if atacante.status_vida() else atacante
-            
-            if hasattr(ganhador, "mana"):
-                ganhador.restaurar_mana()
-            
+
             ganhador.restaurar_hp()
+            ganhador.restaurar_mana()
+            
             lutadores.remove(perdedor)
             break
             
@@ -29,7 +31,7 @@ while len(lutadores) > 1:
             atacante = duelistas[1]
             defensor = duelistas[0]
 
-        relatorio_atacante = {}
+        relatorio_atacante: Dict[str, Any] = {}
         try:
             atacante.mana = min(atacante.mana + 15, atacante.mana_maxima)
             relatorio_atacante = atacante.usar_especial(defensor)
@@ -44,8 +46,7 @@ while len(lutadores) > 1:
 
         limpar_terminal()
         narrador_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor)
-        sleep(0.5)
-    sleep(1)
+        input("\nPressione ENTER para ir para o próximo Turno")
 
 limpar_terminal()
 print(f"Parabéns, {lutadores[0].nome} é o ganhador do torneio!")
