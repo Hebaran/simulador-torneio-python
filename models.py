@@ -56,11 +56,11 @@ class Personagem:
 
 
     @classmethod
-    def create_char(cls, nome: str, vida: tuple=(200, 240), ataque: tuple=(10, 15)) -> "Personagem":
-        cls.vida = _random.randint(*vida)
-        cls.ataque = _random.randint(*ataque)
+    def create_char(cls, nome: str, vida_range: tuple=(200, 240), ataque_range: tuple=(10, 15)) -> "Personagem":
+        vida = _random.randint(*vida_range)
+        ataque = _random.randint(*ataque_range)
         
-        return cls(nome, cls.vida, cls.ataque)
+        return cls(nome, vida, ataque)
 
 
 class Guerreiro(Personagem):
