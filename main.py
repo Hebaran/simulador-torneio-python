@@ -40,8 +40,8 @@ while len(lutadores) > 1:
             relatorio_atacante.update(atacante.atacar(defensor))
 
         limpar_terminal()
-        Narrador.narrar_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor)
-        input("\nPressione ENTER para ir para o próximo Turno")
+        print(Narrador._narrar_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor))
+        input("\nPressione ENTER para ir para o próximo Turno\n")
 
 limpar_terminal()
 print(f"Parabéns, {lutadores[0].nome} é o ganhador do torneio!")
