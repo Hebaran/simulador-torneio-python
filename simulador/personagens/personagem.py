@@ -55,54 +55,13 @@ class Personagem:
         return self.vida > 0
 
 
+    def possui_mana(self) -> bool:
+        return self.mana_maxima > 0
+
+
     @classmethod
     def create_char(cls, nome: str, vida_range: tuple=(200, 240), ataque_range: tuple=(10, 15)) -> "Personagem":
         vida = _random.randint(*vida_range)
         ataque = _random.randint(*ataque_range)
         
         return cls(nome, vida, ataque)
-
-
-class Guerreiro(Personagem):
-    def __init__(self, nome: str="CharacterWarrior", vida: int=105, ataque: int=13) -> None:
-        super().__init__(nome, vida, ataque)
-    
-    
-    def atacar(self, alvo: "Personagem") -> Dict[str, Any]:
-        relatorio_ataque: Dict[str, Any] = {}
-
-        if self.status_vida() and alvo.status_vida():
-            chance_critico: bool = _random.random() <= 0.2
-            relatorio_dano_causado: Dict[str, Any] = alvo.receber_dano((self.ataque * 2) if chance_critico else self.ataque)
-            relatorio_ataque = relatorio_dano_causado | {"atacante": self.nome, "critico": chance_critico}
-            
-        return relatorio_ataque
-
-
-class Mago(Personagem):
-    def __init__(self, nome: str="CharacterMage", vida: int=90, ataque: int=8, mana: int=120) -> None:
-        super().__init__(nome, vida, ataque, mana)
-        
-        self.mana = self.mana_maxima = mana
-        self.especial_cooldown = 0
-
-    def usar_especial(self, alvo: "Personagem") -> Dict[str, Any]:
-        relatorio_especial: Dict[str, Any] = {}
-
-        if self.status_vida() and alvo.status_vida():   
-            if self.mana >= 60 and self.especial_cooldown == 0:
-                self.mana = max(0, self.mana - 60)
-                self.especial_cooldown = 2
-                
-                relatorio_especial = {"atacante": self.nome, "especial": True, "mana_restante": self.mana}
-                relatorio_especial.update(alvo.receber_dano(self.ataque * 5))
-            else:
-                self.especial_cooldown = max(0, self.especial_cooldown - 1)
-                
-                relatorio_especial= {
-                    "especial": False,
-                    "motivo_erro_especial": "Mana insuficiente" if self.mana <= 60 else "Especial em tempo de recarga",
-                    "especial_cooldown": self.especial_cooldown
-                }
-        
-        return relatorio_especial

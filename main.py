@@ -1,5 +1,5 @@
-from models import Personagem, Guerreiro, Mago
-from utils import narrador_combate, limpar_terminal
+from simulador.personagens import Personagem, Guerreiro, Mago
+from simulador.utils import narrador_combate, limpar_terminal
 from typing import Dict, Any
 from random import sample
 
