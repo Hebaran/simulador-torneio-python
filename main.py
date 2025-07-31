@@ -10,8 +10,7 @@ lutadores.extend([Guerreiro("Guerreiro", 235), Mago("Mago", 190)])
 
 while len(lutadores) > 1:
     duelistas = sample(lutadores, 2)
-    atacante = duelistas[0]
-    defensor = duelistas[1]
+    atacante, defensor = duelistas
 
     for turno in range(1, 101):
         if False in [atacante.status_vida(), defensor.status_vida()]:
