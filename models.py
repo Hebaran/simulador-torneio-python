@@ -2,10 +2,11 @@ import random as _random
 from typing import Dict, Any
 
 class Personagem:
-    def __init__(self, nome: str="Character", vida: int=100, ataque: int=10) -> None:
+    def __init__(self, nome: str="Character", vida: int=100, ataque: int=10, mana: int=0) -> None:
         self.nome = nome.strip().capitalize()
         self.vida = self.vida_maxima = vida
         self.ataque = ataque
+        self.mana = self.mana_maxima = mana
 
 
     def atacar(self, alvo: "Personagem") -> Dict[str, Any]:
@@ -27,10 +28,26 @@ class Personagem:
         return relatorio_dano
 
 
+    def usar_especial(self, alvo) -> Dict[str, Any]:
+        relatorio_especial: Dict[str, Any] = {
+            "especial": False,
+            "motivo_erro_especial": f"{self.nome} não tem um especial. Nada acontece com {alvo.nome}"
+        }
+
+        return relatorio_especial
+
+
+    def restaurar_mana(self) -> Dict[str, int]:
+        self.mana = self.mana_maxima
+        relatorio_mana: Dict[str, int] = {"mana_restaurada": self.mana_maxima}
+
+        return relatorio_mana
+
+
     def restaurar_hp(self) -> Dict[str, int]:
         self.vida = self.vida_maxima
         relatorio_hp: Dict[str, int] = {"vida_restaurada": self.vida_maxima}
-        
+
         return relatorio_hp
 
     
@@ -64,10 +81,10 @@ class Guerreiro(Personagem):
 
 class Mago(Personagem):
     def __init__(self, nome: str="CharacterMage", vida: int=90, ataque: int=8, mana: int=120) -> None:
-        super().__init__(nome, vida, ataque)
+        super().__init__(nome, vida, ataque, mana)
         
         self.mana = self.mana_maxima = mana
-        self.especial_cooldown: int = 0
+        self.especial_cooldown = 0
 
     def usar_especial(self, alvo: "Personagem") -> Dict[str, Any]:
         relatorio_especial: Dict[str, Any] = {}
@@ -84,14 +101,8 @@ class Mago(Personagem):
                 
                 relatorio_especial= {
                     "especial": False,
-                    "motivo_erro_especial": "Mana insuficiente" if self.mana <= 60 else "Especial em tempo de recarga",                         "especial_cooldown": self.especial_cooldown
+                    "motivo_erro_especial": "Mana insuficiente" if self.mana <= 60 else "Especial em tempo de recarga",
+                    "especial_cooldown": self.especial_cooldown
                 }
         
         return relatorio_especial
-    
-    
-    def restaurar_mana(self) -> Dict[str, int]:
-        self.mana = self.mana_maxima
-        relatorio_mana: Dict[str, int] = {"mana_restaurada": self.mana_maxima}
-        
-        return relatorio_mana
