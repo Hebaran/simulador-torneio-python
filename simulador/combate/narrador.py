@@ -17,8 +17,7 @@ class Narrador:
         motivo_erro_especial: Union[str, None] = relatorio.get("motivo_erro_especial") if atacante.possui_mana() else None
         especial_cooldown: Union[int, None] = relatorio.get("especial_cooldown")
     
-        print(f"======= {nome_duelista1} x {nome_duelista2} =======")
-        print(f"Turno: {turno}/100\n")
+        Narrador._narrar_turno(turno, nome_duelista1, nome_duelista2)
     
         for duelista in duelistas:
             if duelista.possui_mana() and motivo_erro_especial:
@@ -41,3 +40,9 @@ class Narrador:
     
         for duelista in duelistas:
             print(f"Vida restante de {duelista.nome}: {duelista.vida} | Mana restante de {duelista.nome}: {duelista.mana}")
+
+
+    @staticmethod
+    def _narrar_turno(turno:int, nome_duelista1: str, nome_duelista2: str) -> None:
+        print(f"======= {nome_duelista1} x {nome_duelista2} =======")
+        print(f"Turno: {turno}/100\n")
