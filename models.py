@@ -1,13 +1,13 @@
-from random import random
+import random as _random
 
 class Personagem:
-    def __init__(self, nome="Character", vida=100, ataque=10):
+    def __init__(self, nome: str="Character", vida: int=100, ataque: int=10) -> None:
         self.nome = nome.strip().capitalize()
         self.vida = self.vida_maxima = vida
         self.ataque = ataque
 
 
-    def atacar(self, alvo):
+    def atacar(self, alvo) -> dict:
         relatorio_ataque = {}
         
         if self.status_vida() and alvo.status_vida():
@@ -17,7 +17,7 @@ class Personagem:
         return relatorio_ataque
 
     
-    def receber_dano(self, dano=1):
+    def receber_dano(self, dano: int=1):
         relatorio_dano = {}
         
         if self.status_vida():
@@ -42,6 +42,15 @@ class Personagem:
     def status_vida(self):
         return self.vida > 0
 
+
+    @classmethod
+    def create_char(cls, nome: str, vida: tuple=(200, 240), ataque: tuple=(10, 15)) -> object:
+        cls.vida = _random.randint(*vida)
+        cls.ataque = _random.randint(*ataque)
+        
+        return cls(nome, cls.vida, cls.ataque)
+
+
 class Guerreiro(Personagem):
     def __init__(self, nome="CharacterWarrior", vida=105, ataque=14):
         super().__init__(nome, vida, ataque)
@@ -51,7 +60,7 @@ class Guerreiro(Personagem):
         relatorio_ataque = {}
 
         if self.status_vida() and alvo.status_vida():
-            chance_critico = random() <= 0.2
+            chance_critico = _random.random() <= 0.2
             relatorio_dano_causado = alvo.receber_dano((self.ataque * 2) if chance_critico else self.ataque)
             relatorio_ataque = relatorio_dano_causado | {"atacante": self.nome, "critico": chance_critico}
             

@@ -1,23 +1,13 @@
 from models import Personagem, Guerreiro, Mago
 from utils import limpar_terminal, narrador_combate
-from random import shuffle, sample
+from random import sample
 from time import sleep
 
-nomes_possiveis = ["Bárbaro", "Arqueiro", "Ladino", "Assassino"]
-vidas_possiveis = [220, 230, 200, 210]
-ataques_possiveis = [10, 15, 12, 9]
+nomes_lutadores = ["Bárbaro", "Arqueiro", "Ladino", "Assassino"]
 lutadores = []
 
-for i in range(1, 5):
-    shuffle(nomes_possiveis)
-    shuffle(vidas_possiveis)
-    shuffle(ataques_possiveis)
-
-    nome_char = nomes_possiveis.pop()
-    vida_char = vidas_possiveis.pop()
-    ataque_char = ataques_possiveis.pop()
-
-    lutadores.append(Personagem(nome_char, vida_char, ataque_char))
+for nome in nomes_lutadores:
+    lutadores.append(Personagem.create_char(nome))
 lutadores.extend([Guerreiro("Guerreiro", 235), Mago("Mago", 190)])
 
 while len(lutadores) > 1:
