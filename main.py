@@ -1,5 +1,6 @@
-from models import Personagem, Guerreiro, Mago
-from utils import narrador_combate, limpar_terminal
+from simulador.personagens import Personagem, Guerreiro, Mago
+from simulador.combate.narrador import Narrador
+from simulador.utils import limpar_terminal
 from typing import Dict, Any
 from random import sample
 
@@ -39,8 +40,8 @@ while len(lutadores) > 1:
             relatorio_atacante.update(atacante.atacar(defensor))
 
         limpar_terminal()
-        narrador_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor)
-        input("\nPressione ENTER para ir para o próximo Turno")
+        print(Narrador._narrar_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor))
+        input("\nPressione ENTER para ir para o próximo Turno\n")
 
 limpar_terminal()
 print(f"Parabéns, {lutadores[0].nome} é o ganhador do torneio!")
