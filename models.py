@@ -7,8 +7,8 @@ class Personagem:
         self.ataque = ataque
 
 
-    def atacar(self, alvo) -> dict:
-        relatorio_ataque = {}
+    def atacar(self, alvo: "Personagem") -> dict:
+        relatorio_ataque: dict = {}
         
         if self.status_vida() and alvo.status_vida():
             relatorio_dano_causado = alvo.receber_dano(self.ataque)
