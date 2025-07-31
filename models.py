@@ -64,7 +64,7 @@ class Personagem:
 
 
 class Guerreiro(Personagem):
-    def __init__(self, nome: str="CharacterWarrior", vida: int=105, ataque: int=14) -> None:
+    def __init__(self, nome: str="CharacterWarrior", vida: int=105, ataque: int=13) -> None:
         super().__init__(nome, vida, ataque)
     
     
