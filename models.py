@@ -39,7 +39,7 @@ class Personagem:
 
 
     @classmethod
-    def create_char(cls, nome: str, vida: tuple=(200, 240), ataque: tuple=(10, 15)) -> object:
+    def create_char(cls, nome: str, vida: tuple=(200, 240), ataque: tuple=(10, 15)) -> "Personagem":
         cls.vida = _random.randint(*vida)
         cls.ataque = _random.randint(*ataque)
         
