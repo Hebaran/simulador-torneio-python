@@ -31,17 +31,12 @@ while len(lutadores) > 1:
             defensor = duelistas[0]
 
         relatorio_atacante: Dict[str, Any] = {}
-        try:
-            atacante.mana = min(atacante.mana + 15, atacante.mana_maxima)
-            relatorio_atacante = atacante.usar_especial(defensor)
-            
-            if not relatorio_atacante["especial"]:
-                raise PermissionError(relatorio_atacante["motivo_erro_especial"])
-        except (AttributeError, PermissionError):
-            if hasattr(atacante, "mana"):
-                relatorio_atacante.update(atacante.atacar(defensor))
-            else:
-                relatorio_atacante = atacante.atacar(defensor)
+        
+        atacante.mana = min(atacante.mana + 15, atacante.mana_maxima)
+        relatorio_atacante = atacante.usar_especial(defensor)
+        
+        if not relatorio_atacante["especial"]:
+            relatorio_atacante.update(atacante.atacar(defensor))
 
         limpar_terminal()
         narrador_combate(relatorio_atacante | {"turno": turno, "duelistas": duelistas}, atacante, defensor)
