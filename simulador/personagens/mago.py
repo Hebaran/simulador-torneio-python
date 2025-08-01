@@ -2,6 +2,7 @@ from simulador.personagens.personagem import Personagem
 from simulador.relatorios import RelatorioUsarEspecial, RelatorioReceberDano
 from dataclasses import dataclass
 
+
 @dataclass
 class Mago(Personagem):
     vida: int = 90
