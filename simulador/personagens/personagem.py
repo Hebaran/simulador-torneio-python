@@ -1,12 +1,20 @@
 import random as _random
+from dataclasses import dataclass
 from typing import Dict, Any
 
+
+@dataclass
 class Personagem:
-    def __init__(self, nome: str="Character", vida: int=100, ataque: int=10, mana: int=0) -> None:
-        self.nome = nome.strip().capitalize()
-        self.vida = self.vida_maxima = vida
-        self.ataque = ataque
-        self.mana = self.mana_maxima = mana
+    nome: str = "Character"
+    vida: int = 100
+    ataque: int = 10
+    mana: int = 0
+    especial_cooldown: int = 0
+
+    def __post_init__(self) -> None:
+        self.nome = self.nome.strip().capitalize()
+        self.vida = self.vida_maxima = self.vida
+        self.mana = self.mana_maxima = self.mana
 
 
     def atacar(self, alvo: "Personagem") -> Dict[str, Any]:
@@ -49,6 +57,13 @@ class Personagem:
         relatorio_hp: Dict[str, int] = {"vida_restaurada": self.vida_maxima}
 
         return relatorio_hp
+
+
+    def restaurar_cd(self) -> Dict[str, bool]:
+        self.especial_cooldown = 0
+        relatorio_cd: Dict[str, bool] = {"cooldown_restaurado": True}
+    
+        return relatorio_cd
 
     
     def status_vida(self) -> bool:

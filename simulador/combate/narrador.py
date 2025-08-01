@@ -49,7 +49,7 @@ class Narrador:
     
     @staticmethod
     def _narrar_critico() -> str:
-        relatorio_narrador = f"GOLPE CRÍTICO! "
+        relatorio_narrador = "GOLPE CRÍTICO! "
         return relatorio_narrador
     
     
@@ -68,7 +68,7 @@ class Narrador:
         relatorio_narrador: str = f"{motivo_erro_especial}\n"
         
         if motivo_erro_especial == "Especial em tempo de recarga" and especial_cooldown is not None:
-            relatorio_narrador += f"Faltam {especial_cooldown + 1} turno(os) para {nome_atacante} conseguir utilizar seu especial"
+            relatorio_narrador += f"Faltam {especial_cooldown + 1} turno(os) para {nome_atacante} conseguir utilizar seu especial\n"
         return relatorio_narrador
     
     

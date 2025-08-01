@@ -7,7 +7,6 @@ class Mago(Personagem):
         super().__init__(nome, vida, ataque, mana)
 
         self.mana = self.mana_maxima = mana
-        self.especial_cooldown = 0
 
     def usar_especial(self, alvo: "Personagem") -> Dict[str, Any]:
         relatorio_especial: Dict[str, Any] = {}

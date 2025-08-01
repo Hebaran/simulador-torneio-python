@@ -24,6 +24,7 @@ class Torneio:
 
                     ganhador.restaurar_hp()
                     ganhador.restaurar_mana()
+                    ganhador.restaurar_cd()
                     
                     lutadores.remove(perdedor)
                     break
