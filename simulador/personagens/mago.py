@@ -1,5 +1,5 @@
 from .personagem import Personagem
-from typing import Dict, Any
+from simulador.relatorios import RelatorioUsarEspecial
 
 
 class Mago(Personagem):
@@ -8,23 +8,33 @@ class Mago(Personagem):
 
         self.mana = self.mana_maxima = mana
 
-    def usar_especial(self, alvo: "Personagem") -> Dict[str, Any]:
-        relatorio_especial: Dict[str, Any] = {}
+    def usar_especial(self, alvo: "Personagem") -> RelatorioUsarEspecial:
+        relatorio_especial: RelatorioUsarEspecial = {
+            "nome_alvo": alvo.nome,
+            "dano_causado": 0,
+            "vida_restante_alvo": alvo.vida,
+            "nome_atacante": self.nome,
+            "mana_restante": self.mana,
+            "especial": False,
+            "especial_cooldown": self.especial_cooldown,
+            "motivo_erro_especial": "Mana insuficiente" if self.mana <= 60 else "Especial em tempo de recarga"
+        }
 
         if self.status_vida() and alvo.status_vida():   
             if self.mana >= 60 and self.especial_cooldown == 0:
                 self.mana = max(0, self.mana - 60)
                 self.especial_cooldown = 2
 
-                relatorio_especial = {"atacante": self.nome, "especial": True, "mana_restante": self.mana}
-                relatorio_especial.update(alvo.receber_dano(self.ataque * 5))
+                relatorio_especial = {
+                    **alvo.receber_dano(self.ataque * 5),
+                    "nome_atacante": self.nome,
+                    "mana_restante": self.mana,
+                    "especial": True,
+                    "especial_cooldown": self.especial_cooldown,
+                    "motivo_erro_especial": None
+                }
+            
             else:
                 self.especial_cooldown = max(0, self.especial_cooldown - 1)
-
-                relatorio_especial= {
-                    "especial": False,
-                    "motivo_erro_especial": "Mana insuficiente" if self.mana <= 60 else "Especial em tempo de recarga",
-                    "especial_cooldown": self.especial_cooldown
-                }
 
         return relatorio_especial

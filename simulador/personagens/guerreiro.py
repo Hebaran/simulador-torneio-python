@@ -1,4 +1,5 @@
 from .personagem import Personagem
+from relatorios import RelatorioAtaque
 import random as _random
 from typing import Dict, Any
 
@@ -8,8 +9,8 @@ class Guerreiro(Personagem):
         super().__init__(nome, vida, ataque)
 
 
-    def atacar(self, alvo: "Personagem") -> Dict[str, Any]:
-        relatorio_ataque: Dict[str, Any] = {}
+    def atacar(self, alvo: "Personagem") -> RelatorioAtaque: # ADICIONAR RelatorioAtaque AQUI
+        relatorio_ataque: RelatorioAtaque = {}
 
         if self.status_vida() and alvo.status_vida():
             chance_critico: bool = _random.random() <= 0.2
