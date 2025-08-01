@@ -6,6 +6,7 @@ import random as _random
 
 @dataclass
 class Guerreiro(Personagem):
+    nome: str = "CharacterWarrior"
     vida: int = 105
     ataque: int = 13
 

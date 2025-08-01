@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Mago(Personagem):
+    nome: str = "CharacterMage"
     vida: int = 90
     ataque: int = 8
     mana: int = 120
