@@ -35,10 +35,8 @@ class Torneio:
                     atacante = duelistas[1]
                     defensor = duelistas[0]
 
-                relatorio_atacante: Dict[str, Any] = {}
-                
                 atacante.mana = min(atacante.mana + 15, atacante.mana_maxima)
-                relatorio_atacante = atacante.usar_especial(defensor)
+                relatorio_atacante: Dict[str, Any] = atacante.usar_especial(defensor)
                 
                 if not relatorio_atacante["especial"]:
                     relatorio_atacante.update(atacante.atacar(defensor))
