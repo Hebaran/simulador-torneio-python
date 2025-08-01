@@ -10,6 +10,7 @@ class RelatorioReceberDano(TypedDict):
 class RelatorioAtaque(RelatorioReceberDano):
     nome_atacante: str
     vida_restante_atacante: int
+    critico: Optional[bool]
 
 
 class RelatorioUsarEspecial(RelatorioReceberDano):

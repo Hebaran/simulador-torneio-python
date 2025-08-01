@@ -31,20 +31,22 @@ class Personagem:
             "dano_causado": 0,
             "vida_restante_alvo": alvo.vida,
             "nome_atacante": self.nome,
-            "vida_restante_atacante": self.vida
+            "vida_restante_atacante": self.vida,
+            "critico": False
         }
         
         if self.status_vida() and alvo.status_vida():
             relatorio_ataque = {
                 **alvo.receber_dano(self.ataque),
                 "nome_atacante": self.nome,
-                "vida_restante_atacante": self.vida
+                "vida_restante_atacante": self.vida,
+                "critico": False
             }
         
         return relatorio_ataque
     
     
-    def receber_dano(self, dano: int=1) -> RelatorioReceberDano:
+    def receber_dano(self, dano: int = 1) -> RelatorioReceberDano:
         relatorio_receber_dano: RelatorioReceberDano = {
             "nome_alvo": self.nome,
             "dano_causado": 0,
@@ -59,9 +61,15 @@ class Personagem:
         return relatorio_receber_dano
 
 
-    def usar_especial(self, alvo: "Personagem") -> RelatorioUsarEspecial: # CONCERTAR RelatorioUsarEspecial AQUI
+    def usar_especial(self, alvo: "Personagem") -> RelatorioUsarEspecial:
         relatorio_especial: RelatorioUsarEspecial = {
+            "nome_alvo": alvo.nome,
+            "dano_causado": 0,
+            "vida_restante_alvo": alvo.vida,
+            "nome_atacante": self.nome,
             "especial": False,
+            "especial_cooldown": self.especial_cooldown,
+            "mana_restante": self.mana,
             "motivo_erro_especial": f"{self.nome} não tem um especial. Nada acontece com {alvo.nome}"
         }
         
@@ -98,7 +106,7 @@ class Personagem:
     
     
     @classmethod
-    def create_char(cls, nome: str, vida_range: tuple=(200, 240), ataque_range: tuple=(10, 15)) -> "Personagem":
+    def create_char(cls, nome: str, vida_range: tuple[int, int] = (200, 240), ataque_range: tuple[int, int] = (10, 15)) -> "Personagem":
         vida = _random.randint(*vida_range)
         ataque = _random.randint(*ataque_range)
         

@@ -1,12 +1,13 @@
-from .personagem import Personagem
-from simulador.relatorios import RelatorioUsarEspecial
+from simulador.personagens.personagem import Personagem
+from simulador.relatorios import RelatorioUsarEspecial, RelatorioReceberDano
+from dataclasses import dataclass
 
-
+@dataclass
 class Mago(Personagem):
-    def __init__(self, nome: str="CharacterMage", vida: int=90, ataque: int=8, mana: int=120) -> None:
-        super().__init__(nome, vida, ataque, mana)
+    vida: int = 90
+    ataque: int = 8
+    mana: int = 120
 
-        self.mana = self.mana_maxima = mana
 
     def usar_especial(self, alvo: "Personagem") -> RelatorioUsarEspecial:
         relatorio_especial: RelatorioUsarEspecial = {
@@ -24,9 +25,11 @@ class Mago(Personagem):
             if self.mana >= 60 and self.especial_cooldown == 0:
                 self.mana = max(0, self.mana - 60)
                 self.especial_cooldown = 2
+                
+                relatorio_dano_causado: RelatorioReceberDano = alvo.receber_dano(self.ataque * 5)
 
                 relatorio_especial = {
-                    **alvo.receber_dano(self.ataque * 5),
+                    **relatorio_dano_causado,
                     "nome_atacante": self.nome,
                     "mana_restante": self.mana,
                     "especial": True,
