@@ -28,7 +28,7 @@ class Personagem:
         return relatorio_dano
 
 
-    def usar_especial(self, alvo) -> Dict[str, Any]:
+    def usar_especial(self, alvo: "Personagem") -> Dict[str, Any]:
         relatorio_especial: Dict[str, Any] = {
             "especial": False,
             "motivo_erro_especial": f"{self.nome} não tem um especial. Nada acontece com {alvo.nome}"
